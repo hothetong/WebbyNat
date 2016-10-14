@@ -1,42 +1,43 @@
 import { Component } from '@angular/core';
+import { CarPart } from './car-part';
+//import { CARPARTS } from './mocks';
+import { RacingDataService } from './racing-data.service';
 
 @Component ({
 	selector: 'car-parts',
-	template: `
-	<p>There are {{totalCarParts()}} total parts in stock.</p>
-	<ul>
-		<li *ngFor="let carPart of carParts">
-			<h2>{{carPart.name | uppercase}}</h2>
-			<p>{{carPart.description}}</p>
-			<p>{{carPart.price | currency:'EUR':true}}</p>
-			<p *ngIf="carPart.inStock > 0">{{carPart.inStock}} in Stock</p>
-			<p *ngIf="carPart.inStock === 0">Out of Stock</p>
-		</li>
-	</ul>`
+	templateUrl: 'app/car-parts.component.html',
+	styleUrls: ['app/car-parts.component.css']
 })
 export class CarPartsComponent {
-	carParts = [{
-		"id" 			: 1,
-		"name" 			: "Super Tires",
-		"description"	: "These tires are the very best",
-		"inStock"		: 5,
-		"price" 		: 4.99
-	},
-	{
-		"id" 			: 2,
-		"name" 			: "Reinforced Shocks",
-		"description" 	: "Shocks made from skryptonite",
-		"inStock"		: 4,
-		"price" 		: 9.99
-	},
-	{
-		"id" 			: 3,
-		"name" 			: "Padded Seats",
-		"description"	: "Super soft seats for a smooth ride",
-		"inStock"		: 0,
-		"price" 		: 4.99
-	}];
+	carParts: CarPart[];
+	constructor(private racingDataService : RacingDataService){}
+	ngOnInit(){
+		//this.carParts = CARPARTS;
+		//let racingDataService = new RacingDataService();
+		//this.carParts = this.racingDataService.getCarParts();
+		this.racingDataService.getCarParts()
+			.subscribe(carParts => this.carParts = carParts);
+	}
 	totalCarParts(){
-		return this.carParts.reduce((prev, curr) => prev + curr.inStock, 0);
+		if(Array.isArray(this.carParts))
+			return this.carParts.reduce((prev, curr) => prev + curr.inStock - curr.quantity, 0);
+	}
+	upQuantity(carPart){
+		if(carPart.quantity < carPart.inStock)
+			carPart.quantity++;
+	}
+	downQuantity(carPart){
+		if(carPart.quantity != 0)
+			carPart.quantity--;
+	}
+	standardizeQuantity(carPart){
+		if(carPart.quantity < 0)
+			return carPart.quantity = 0;
+		if(carPart.quantity > carPart.inStock)
+			return carPart.quantity = carPart.inStock;
+	}
+	handleKey(event, carPart){
+		if(event.keyCode == 13)
+			return this.standardizeQuantity(carPart);
 	}
 }

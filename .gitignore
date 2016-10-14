@@ -1,0 +1,6 @@
+.metadata/
+.recommenders/
+Servers/
+angular2-kata/typings/
+angular2-kata/node_modules/
+MovieRating/

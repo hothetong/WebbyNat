@@ -1,0 +1,18 @@
+.description {
+	color: #666;
+	font-size: small;
+}
+.price {
+	font-weight:bold;
+}
+.card{
+	background: #d2d2d2;
+}
+.featured{
+	background: #989898;
+	-webkit-border-image: -webkit-linear-gradient(right, #818fd8 0%, #cbb4e2 50%, #a6f2f5 100%);
+		-o-border-image: linear-gradient(to left, #818fd8 0%, #cbb4e2 50%, #a6f2f5 100%);
+			border-image: linear-gradient(to left, #818fd8 0%, #cbb4e2 50%, #a6f2f5 100%);
+	border-image-slice: 1;
+	/*color: white;*/
+}
