@@ -9,33 +9,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var forms_1 = require('@angular/forms');
-var http_1 = require('@angular/http');
-var app_routing_module_1 = require('./app-routing.module');
-var app_component_1 = require('./component/app.component');
+var router_1 = require('@angular/router');
 var car_parts_component_1 = require('./component/carparts/car-parts.component');
 var car_part_component_1 = require('./component/carpart/car-part.component');
-var racing_data_service_1 = require('./component/service/racing-data.service');
-var AppModule = (function () {
-    function AppModule() {
+var AppRoutingModule = (function () {
+    function AppRoutingModule() {
     }
-    AppModule = __decorate([
+    AppRoutingModule = __decorate([
         core_1.NgModule({
             imports: [
-                platform_browser_1.BrowserModule,
-                http_1.HttpModule,
-                forms_1.FormsModule,
-                http_1.JsonpModule,
-                app_routing_module_1.AppRoutingModule
+                router_1.RouterModule.forRoot([
+                    { path: 'carpart/:id',
+                        component: car_part_component_1.CarPartDetailComponent,
+                    },
+                    {
+                        path: 'carparts',
+                        component: car_parts_component_1.CarPartsComponent,
+                        data: {
+                            title: 'Carpart List'
+                        }
+                    },
+                    { path: '', component: car_parts_component_1.CarPartsComponent },
+                ])
             ],
-            declarations: [app_component_1.AppComponent, car_parts_component_1.CarPartsComponent, car_part_component_1.CarPartDetailComponent],
-            bootstrap: [app_component_1.AppComponent],
-            providers: [racing_data_service_1.RacingDataService]
+            exports: [
+                router_1.RouterModule
+            ]
         }), 
         __metadata('design:paramtypes', [])
-    ], AppModule);
-    return AppModule;
+    ], AppRoutingModule);
+    return AppRoutingModule;
 }());
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+exports.AppRoutingModule = AppRoutingModule;
+//# sourceMappingURL=app-routing.module.js.map

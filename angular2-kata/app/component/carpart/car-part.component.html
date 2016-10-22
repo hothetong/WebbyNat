@@ -1,0 +1,15 @@
+<div *ngIf="carPart">
+    <a [routerLink]="['/carpart', carPart.id]"><h2>{{carPart.name | uppercase}}</h2></a>
+    <p class="description">{{carPart.description}}</p>
+    <p class="price">{{carPart.price | currency:'EUR':true}}</p>
+    <p *ngIf="carPart.inStock - carPart.quantity > 0 && carPart.quantity >= 0">{{carPart.inStock - carPart.quantity}} in Stock</p>
+    <p *ngIf="!isNumber(carPart.quantity) || carPart.quantity < 0">{{carPart.inStock}} in Stock</p>
+    <p *ngIf="carPart.inStock - carPart.quantity <= 0">Out of Stock</p>
+    <div>
+        <button (click)="downQuantity(carPart)">-</button>
+        <input type="text" [(ngModel)]="carPart.quantity" (blur)="standardizeQuantity(carPart)"
+                                                            (keypress)="handleKey($event, carPart)" >
+        <button (click)="upQuantity(carPart)">+</button>
+    </div>
+    <button (click)="gotoCarPartList()">Back</button>
+</div>
